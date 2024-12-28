@@ -1,4 +1,4 @@
-// Fireworks Canvas
+// Fireworks Animation
 const canvas = document.getElementById('fireworks');
 const ctx = canvas.getContext('2d');
 canvas.width = window.innerWidth;
@@ -12,7 +12,6 @@ function Firework(x, y, color) {
     this.x = x;
     this.y = y;
     this.color = color;
-    this.radius = 3;
     this.velocityY = Math.random() * -4 - 6;
     this.gravity = 0.1;
     this.exploded = false;
@@ -32,61 +31,29 @@ Firework.prototype.update = function() {
 
 Firework.prototype.draw = function() {
     ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    ctx.arc(this.x, this.y, 3, 0, Math.PI * 2, false);
     ctx.fillStyle = this.color;
     ctx.fill();
 };
 
-// Particle Constructor
-function Particle(x, y, color) {
-    this.x = x;
-    this.y = y;
-    this.color = color;
-    this.radius = Math.random() * 2 + 1;
-    this.velocityX = Math.random() * 4 - 2;
-    this.velocityY = Math.random() * 4 - 2;
-    this.gravity = 0.05;
-    this.alpha = 1;
+// Countdown Timer
+const countdown = document.getElementById('countdown');
+function updateCountdown() {
+    const now = new Date();
+    const newYear = new Date('2025-01-01T00:00:00');
+    const difference = newYear - now;
+
+    const hours = Math.floor(difference / (1000 * 60 * 60));
+    const minutes = Math.floor((difference / (1000 * 60)) % 60);
+    const seconds = Math.floor((difference / 1000) % 60);
+
+    countdown.innerHTML = `🎯 Countdown: ${hours}h ${minutes}m ${seconds}s`;
 }
+setInterval(updateCountdown, 1000);
 
-Particle.prototype.update = function() {
-    this.x += this.velocityX;
-    this.y += this.velocityY;
-    this.velocityY += this.gravity;
-    this.alpha -= 0.02;
-};
-
-Particle.prototype.draw = function() {
-    ctx.globalAlpha = this.alpha;
-    ctx.beginPath();
-    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
-    ctx.fillStyle = this.color;
-    ctx.fill();
-    ctx.globalAlpha = 1;
-};
-
-// Animation Loop
-function animate() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-    ctx.fillRect(0, 0, canvas.width, canvas.height);
-
-    fireworks.forEach((firework, index) => {
-        firework.update();
-        firework.draw();
-        if (firework.exploded) fireworks.splice(index, 1);
-    });
-
-    particles.forEach((particle, index) => {
-        particle.update();
-        particle.draw();
-        if (particle.alpha <= 0) particles.splice(index, 1);
-    });
-
-    requestAnimationFrame(animate);
-}
-
-// Launch Fireworks on Button Click
+// Play Music and Fireworks
 document.getElementById('fireworks-btn').addEventListener('click', () => {
+    document.getElementById('celebration-music').play();
     for (let i = 0; i < 5; i++) {
         fireworks.push(
             new Firework(
@@ -98,5 +65,16 @@ document.getElementById('fireworks-btn').addEventListener('click', () => {
     }
 });
 
-// Start Animation
+// Animation Loop
+function animate() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+    fireworks.forEach((firework, index) => {
+        firework.update();
+        firework.draw();
+        if (firework.exploded) fireworks.splice(index, 1);
+    });
+    requestAnimationFrame(animate);
+}
 animate();
