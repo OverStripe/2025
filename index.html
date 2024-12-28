@@ -7,14 +7,29 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <div class="container">
-        <h1 class="year">2025</h1>
-        <h2 class="message">🎉 Happy New Year! 🎉</h2>
-        <div id="countdown"></div>
-        <button id="fireworks-btn">🎆 Celebrate 🎆</button>
+    <!-- User Input Modal -->
+    <div class="modal-overlay" id="modal">
+        <div class="modal-content">
+            <h2>🎉 Enter Your Name 🎉</h2>
+            <input type="text" id="username" placeholder="Your Name">
+            <button id="start-btn">Start Celebration</button>
+        </div>
     </div>
+
+    <!-- Main Content -->
+    <div class="content">
+        <h1 class="year" id="year">2025</h1>
+        <h2 class="message" id="greeting">✨ Happy New Year! ✨</h2>
+        <button id="celebrate-btn">🎇 Celebrate 🎇</button>
+        <button id="music-btn">🎵 Toggle Music 🎵</button>
+    </div>
+
+    <!-- Canvas for Fireworks -->
     <canvas id="fireworks"></canvas>
-    <audio id="celebration-music" src="celebration.mp3"></audio>
+
+    <!-- Background Music -->
+    <audio id="background-music" src="celebration.mp3" loop></audio>
+
     <script src="script.js"></script>
 </body>
 </html>
